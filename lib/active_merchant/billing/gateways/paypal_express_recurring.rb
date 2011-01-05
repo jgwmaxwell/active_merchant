@@ -182,6 +182,7 @@ module ActiveMerchant #:nodoc:
                 end
                 xml.tag! 'n2:MaxFailedPayments', options[:max_failed_payments] unless options[:max_failed_payments].blank?
                 xml.tag! 'n2:AutoBillOutstandingAmount', options[:auto_bill_outstanding] ? 'AddToNextBilling' : 'NoAutoBill'
+                xml.tag! 'n2:Custom', options[:custom] unless options[:custom].blank?
               end
             end
           end
