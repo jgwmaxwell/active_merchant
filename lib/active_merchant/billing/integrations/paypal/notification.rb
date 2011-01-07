@@ -74,6 +74,10 @@ module ActiveMerchant #:nodoc:
             params['payment_status']
           end
 
+          def payer_email
+            params['payer_email']
+          end
+
           # Id of this transaction (paypal number)
           def transaction_id
             params['txn_id']
