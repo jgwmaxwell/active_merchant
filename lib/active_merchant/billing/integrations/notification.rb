@@ -11,7 +11,7 @@ module ActiveMerchant #:nodoc:
         def initialize(post, options = {})
           @options = options
           empty!
-          parse(post)
+          parse(post) unless post.is_a?(Hash)
         end
 
         def status
