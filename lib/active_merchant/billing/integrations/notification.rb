@@ -8,10 +8,10 @@ module ActiveMerchant #:nodoc:
         # set this to an array in the subclass, to specify which IPs are allowed to send requests
         class_inheritable_accessor :production_ips
 
-        def initialize(post, options = {})
+        def initialize(posthash, post, options = {})
           @options = options
           empty!
-          parse(post) unless post.is_a?(Hash)
+          parse(posthash, post) unless post.is_a?(Hash)
         end
 
         def status
@@ -49,11 +49,10 @@ module ActiveMerchant #:nodoc:
         private
 
         # Take the posted data and move the relevant data into a hash
-        def parse(post)
-          @raw = post.to_s
-          for line in @raw.split('&')    
-            key, value = *line.scan( %r{^([A-Za-z0-9_.]+)\=(.*)$} ).flatten
-            params[key] = CGI.unescape(value)
+        def parse(posthash, post)
+          @raw = post
+          posthash.each do |k, v|
+            params[k] = v
           end
         end
       end
