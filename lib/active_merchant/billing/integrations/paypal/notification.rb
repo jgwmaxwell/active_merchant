@@ -151,6 +151,24 @@ module ActiveMerchant #:nodoc:
 
             response == "VERIFIED"
           end
+
+          def hash_acknowledge
+            payload = ''
+
+            raw.each do |k, v|
+              payload << ( CGI::escape(k) + '=' + CGI::escape(v) )
+              payload << '&' unless k == "verify_sign"
+            end
+
+            response = ssl_post(Paypal.service_url + '?cmd=_notify-validate', payload,
+                'Content-Length' => "#{payload.size}",
+                'User-Agent'     => "Active Merchant -- http://activemerchant.ord"
+            )
+
+            raise StandardError.new("Faulty paypal result: #{response}") unless ["VERIFIED", "INVALID"].include?(response)
+
+            response == "VERIFIED"
+          end
         end
       end
     end
